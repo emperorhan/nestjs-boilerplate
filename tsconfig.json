@@ -20,7 +20,8 @@
             "@common/*": ["./src/common/*"],
             "@utils/*": ["./src/shared/utils/*"],
             "@config": ["./src/config"],
-            "@sample/*": ["./src/sample/*"]
+            "@sample/*": ["./src/sample/*"],
+            "@shared/*": ["./src/shared/*"]
         }
     }
 }

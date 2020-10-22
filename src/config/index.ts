@@ -3,10 +3,6 @@ import { config as _config } from "dotenv";
 _config({ path: __dirname + "/../../.env" });
 (process as any).send = process.send || function() {};
 
-import LedgisModuleConfig from "./modules/ledgis";
-
-export { LedgisModuleConfig };
-
 export const config = {
     // Base
     isProduction: process.env.NODE_ENV === "production",
@@ -27,3 +23,8 @@ export const config = {
     mongodbHost: process.env.MONGODB_HOST || "121.166.76.122",
     mongodbPort: process.env.MONGODB_PORT || "22222"
 };
+
+import LedgisModuleConfig from "./modules/ledgis";
+import LoggerModuleConfig from "./modules/logger";
+
+export { LedgisModuleConfig, LoggerModuleConfig };

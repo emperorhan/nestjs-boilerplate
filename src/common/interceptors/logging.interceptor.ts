@@ -2,24 +2,37 @@ import {
     Injectable,
     NestInterceptor,
     ExecutionContext,
-    CallHandler,
+    CallHandler
 } from "@nestjs/common";
 import { Observable } from "rxjs";
 import { tap } from "rxjs/operators";
-import { logger } from "@common/winston";
+import { LoggerService } from "@shared/modules/logger/logger.service";
 
 @Injectable()
 export class LoggingInterceptor implements NestInterceptor {
-    intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
-        const { url, method } = context.switchToHttp().getRequest();
+    constructor(private readonly logger: LoggerService) {}
 
-        logger.info(`${method} ${url}`, { context: "Interceptor" });
+    intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
+        const {
+            url,
+            method,
+            _remoteAddress,
+            headers
+        } = context.switchToHttp().getRequest();
+
+        const ip = headers["x-forwarded-for"] || _remoteAddress;
+
+        this.logger.info(`${method} ${url}`, {
+            context: "Interceptor",
+            ip
+        });
 
         const now = Date.now();
         return next.handle().pipe(
             tap(() =>
-                logger.info(`${Date.now() - now}ms time elapsed`, {
+                this.logger.info(`${Date.now() - now}ms time elapsed`, {
                     context: "Interceptor",
+                    ip
                 })
             )
         );

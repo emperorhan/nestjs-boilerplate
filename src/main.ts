@@ -2,7 +2,8 @@ import "cross-fetch/polyfill";
 import { NestFactory } from "@nestjs/core";
 import { NestExpressApplication } from "@nestjs/platform-express";
 import { SwaggerModule, DocumentBuilder } from "@nestjs/swagger";
-import { logger, errorStream } from "@common/winston";
+import { LoggerModule } from "@shared/modules/logger/logger.module";
+import { LoggerService } from "@shared/modules/logger/logger.service";
 import { AppModule } from "@src/app.module";
 import helmet from "helmet";
 import morgan from "morgan";
@@ -11,16 +12,15 @@ import { config } from "@config";
 import rTracer from "cls-rtracer";
 
 async function bootstrap() {
+    const app = await NestFactory.create<NestExpressApplication>(AppModule, {
+        // httpsOptions: {
+        //     key: fs.readFileSync(`./ssl/product/server.key`),
+        //     cert: fs.readFileSync(`./ssl/product/server.crt`)
+        // },
+    });
+    const loggerService = app.select(LoggerModule).get(LoggerService);
+
     try {
-        const app = await NestFactory.create<NestExpressApplication>(
-            AppModule,
-            {
-                // httpsOptions: {
-                //     key: fs.readFileSync(`./ssl/product/server.key`),
-                //     cert: fs.readFileSync(`./ssl/product/server.crt`)
-                // },
-            }
-        );
         const documentOptions = new DocumentBuilder()
             .setTitle(config.appTitle)
             .setDescription(config.appDescription)
@@ -51,7 +51,7 @@ async function bootstrap() {
                 skip(req, res) {
                     return res.statusCode < 400;
                 },
-                stream: errorStream
+                stream: loggerService.errorStream
             })
         );
 
@@ -59,23 +59,23 @@ async function bootstrap() {
 
         await app.listen(config.port, () => {
             !config.isProduction
-                ? logger.info(
-                      `🚀  Server ready at http://${config.host}:${config.port}`,
+                ? loggerService.info(
+                      `🚀  Server ready at http://${config.host}:${config.port}/${config.apiVersion}`,
                       { context: "BootStrap" }
                   )
-                : logger.info(
+                : loggerService.info(
                       `🚀  Server is listening on port ${config.port}`,
                       { context: "BootStrap" }
                   );
 
             !config.isProduction &&
-                logger.info(
-                    `🚀  Subscriptions ready at ws://${config.host}:${config.port}`,
+                loggerService.info(
+                    `🚀  Subscriptions ready at ws://${config.host}:${config.port}/${config.apiVersion}`,
                     { context: "BootStrap" }
                 );
         });
     } catch (error) {
-        logger.error(`❌  Error starting server, ${error}`, {
+        loggerService.error(`❌  Error starting server, ${error}`, {
             context: "BootStrap"
         });
         process.exit();
