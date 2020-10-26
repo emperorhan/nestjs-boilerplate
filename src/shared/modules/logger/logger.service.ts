@@ -15,34 +15,33 @@ export class LoggerService {
         this.logger = createLogger(config);
     }
 
-    info(message: string, meta: Record<string, any>) {
+    info(message: string, meta?: Record<string, any>) {
         const requestId = rTracer.id();
-        meta.requestId = requestId ? requestId : undefined;
+        if (requestId) meta.requestId = requestId;
         this.logger.info({ message, meta });
     }
 
-    error(message: string, meta: Record<string, any>) {
+    error(message: string, meta?: Record<string, any>) {
         const requestId = rTracer.id();
-        meta.requestId = requestId ? requestId : undefined;
+        if (requestId) meta.requestId = requestId;
         this.logger.error({ message, meta });
     }
 
-    log(level: string, message: string, meta: Record<string, any>) {
+    log(level: string, message: string, meta?: Record<string, any>) {
         const requestId = rTracer.id();
-        meta.requestId = requestId ? requestId : undefined;
+        if (requestId) meta.requestId = requestId;
         this.logger.log(level, message, { meta });
     }
 
-    warn(message: string, meta: Record<string, any>) {
+    warn(message: string, meta?: Record<string, any>) {
         const requestId = rTracer.id();
-        meta.requestId = requestId ? requestId : undefined;
+        if (requestId) meta.requestId = requestId;
         this.logger.warn({ message, meta });
     }
 
     errorStream = {
         write: (message: string): void => {
-            const requestId = rTracer.id();
-            this.logger.error(message, { requestId });
+            this.error(message);
         }
     };
 }
