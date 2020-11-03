@@ -8,9 +8,9 @@ import { LoggerModuleConfig } from "@config";
     providers: [
         {
             provide: "LoggerService",
-            useClass: LoggerService
-        }
+            useClass: LoggerService,
+        },
     ],
-    exports: ["LoggerService"]
+    exports: ["LoggerService"],
 })
 export class LoggerModule {}

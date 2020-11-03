@@ -12,7 +12,7 @@ const consoleFormat = printf(info => {
         timestamp: info.timestamp,
         level: info.level,
         message: info.message ? info.message : undefined,
-        meta: info.meta
+        meta: info.meta,
     });
 });
 
@@ -29,7 +29,7 @@ export default registerAs(
         transports: [
             new transports.Console({
                 level: "debug",
-                handleExceptions: true
+                handleExceptions: true,
             }),
             new MongoDB({
                 db: dbUrl,
@@ -39,9 +39,9 @@ export default registerAs(
                 level: "info",
                 capped: true,
                 options: {
-                    useUnifiedTopology: true
+                    useUnifiedTopology: true,
                 },
-                metaKey: "meta"
+                metaKey: "meta",
             }),
             new MongoDB({
                 db: dbUrl,
@@ -51,11 +51,11 @@ export default registerAs(
                 level: "error",
                 capped: true,
                 options: {
-                    useUnifiedTopology: true
+                    useUnifiedTopology: true,
                 },
-                metaKey: "meta"
-            })
+                metaKey: "meta",
+            }),
         ],
-        exitOnError: false
+        exitOnError: false,
     })
 );

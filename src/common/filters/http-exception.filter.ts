@@ -2,7 +2,7 @@ import {
     ExceptionFilter,
     Catch,
     HttpException,
-    ArgumentsHost
+    ArgumentsHost,
 } from "@nestjs/common";
 import { Request, Response } from "express";
 import { LoggerService } from "@shared/modules/logger/logger.service";
@@ -19,14 +19,14 @@ export class HttpExceptionFilter implements ExceptionFilter {
 
         this.logger.error(exception.message, {
             code: exception.getStatus(),
-            context: "Exception"
+            context: "Exception",
         });
 
         response.status(status).json({
             statusCode: status,
             timestamp: new Date().toISOString(),
             message: exception.message,
-            path: request.url
+            path: request.url,
         });
     }
 }

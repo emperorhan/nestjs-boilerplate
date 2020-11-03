@@ -3,7 +3,7 @@ module.exports = {
     parserOptions: {
         ecmaVersion: 2018,
         project: "tsconfig.json",
-        sourceType: "module"
+        sourceType: "module",
     },
     plugins: ["@typescript-eslint/eslint-plugin", "security"],
     extends: [
@@ -11,16 +11,16 @@ module.exports = {
         "plugin:@typescript-eslint/eslint-recommended",
         "plugin:@typescript-eslint/recommended",
         "prettier",
-        "prettier/@typescript-eslint"
+        "prettier/@typescript-eslint",
     ],
     globals: {
         Atomics: "readonly",
-        SharedArrayBuffer: "readonly"
+        SharedArrayBuffer: "readonly",
     },
     root: true,
     env: {
         node: true,
-        jest: true
+        jest: true,
     },
     rules: {
         "@typescript-eslint/interface-name-prefix": "off",
@@ -28,11 +28,11 @@ module.exports = {
         "@typescript-eslint/explicit-module-boundary-types": "off",
         "@typescript-eslint/no-explicit-any": "off",
         "@typescript-eslint/no-empty-function": "off",
-        "@typescript-eslint/no-this-alias": "off"
+        "@typescript-eslint/no-this-alias": "off",
     },
     settings: {
         "import/resolver": {
-            node: { extensions: [".js", ".jsx", ".ts", ".tsx"] }
-        }
-    }
+            node: { extensions: [".js", ".jsx", ".ts", ".tsx"] },
+        },
+    },
 };

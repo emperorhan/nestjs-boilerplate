@@ -42,6 +42,6 @@ export class LoggerService {
     errorStream = {
         write: (message: string): void => {
             this.error(message);
-        }
+        },
     };
 }

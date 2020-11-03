@@ -42,7 +42,7 @@ async function bootstrap() {
                 windowMs: 1000 * 60 * 60, // an hour
                 max: config.rateLimitMax, // limit each IP to 100 requests per windowMs
                 message:
-                    "⚠️  Too many request created from this IP, please try again after an hour"
+                    "⚠️  Too many request created from this IP, please try again after an hour",
             })
         );
 
@@ -51,7 +51,7 @@ async function bootstrap() {
                 skip(req, res) {
                     return res.statusCode < 400;
                 },
-                stream: loggerService.errorStream
+                stream: loggerService.errorStream,
             })
         );
 
@@ -76,7 +76,7 @@ async function bootstrap() {
         });
     } catch (error) {
         loggerService.error(`❌  Error starting server, ${error}`, {
-            context: "BootStrap"
+            context: "BootStrap",
         });
         process.exit();
     }

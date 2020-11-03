@@ -11,12 +11,12 @@ import { SampleModule } from "@sample/sample.module";
     providers: [
         {
             provide: APP_INTERCEPTOR,
-            useClass: LoggingInterceptor
+            useClass: LoggingInterceptor,
         },
         {
             provide: APP_FILTER,
-            useClass: HttpExceptionFilter
-        }
-    ]
+            useClass: HttpExceptionFilter,
+        },
+    ],
 })
 export class AppModule {}

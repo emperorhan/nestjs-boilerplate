@@ -21,7 +21,7 @@ export const config = {
     mongodbUser: process.env.MONGODB_USER || "",
     mongodbPassword: process.env.MONGODB_PASSWORD || "",
     mongodbHost: process.env.MONGODB_HOST || "121.166.76.122",
-    mongodbPort: process.env.MONGODB_PORT || "22222"
+    mongodbPort: process.env.MONGODB_PORT || "22222",
 };
 
 import LedgisModuleConfig from "./modules/ledgis";

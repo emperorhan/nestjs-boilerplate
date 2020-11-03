@@ -2,7 +2,7 @@ import {
     Injectable,
     NestInterceptor,
     ExecutionContext,
-    CallHandler
+    CallHandler,
 } from "@nestjs/common";
 import { Observable } from "rxjs";
 import { tap } from "rxjs/operators";
@@ -17,14 +17,14 @@ export class LoggingInterceptor implements NestInterceptor {
             url,
             method,
             _remoteAddress,
-            headers
+            headers,
         } = context.switchToHttp().getRequest();
 
         const ip = headers["x-forwarded-for"] || _remoteAddress;
 
         this.logger.info(`${method} ${url}`, {
             context: "Interceptor",
-            ip
+            ip,
         });
 
         const now = Date.now();
@@ -32,7 +32,7 @@ export class LoggingInterceptor implements NestInterceptor {
             tap(() =>
                 this.logger.info(`${Date.now() - now}ms time elapsed`, {
                     context: "Interceptor",
-                    ip
+                    ip,
                 })
             )
         );
